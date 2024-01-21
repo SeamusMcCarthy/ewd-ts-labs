@@ -6,7 +6,7 @@ function older(f: Friend): string {
   return `${f.name} is now ${f.age}`;
 }
 
-console.log(older(friends[0]));
+// console.log(older(friends[0]));
 
 function allOlder(all: Friend[]): string[] {
   let results: string[] = [];
@@ -17,7 +17,7 @@ function allOlder(all: Friend[]): string[] {
   return results;
 }
 
-console.log(allOlder(friends));
+// console.log(allOlder(friends));
 
 // Find the colleague with the highest extension number.
 function highestExtension(cs: Colleague[]): Colleague {
@@ -43,21 +43,31 @@ console.log(colleagues.current.filter((c) => c.name === "Sheild O Connell"));
 
 function sortColleagues(
   colleagues: Colleague[],
-  sorter: (c1: Colleague, c2: Colleague) => number
+  sorter: (c1: Colleague, c2: Colleague) => number,
+  max?: number
 ): EmailContact[] {
+  // Change to handle optional parameter
+  let end = colleagues.length;
+  if (max !== undefined) {
+    end = max < 2 ? 1 : max;
+  }
   const sorted = colleagues.sort(sorter); // Colleague[] inferred
   const result: EmailContact[] = sorted.map((ce) => ({
     name: ce.name,
     email: ce.contact.email,
   }));
-  return result;
+  return result.slice(0, end);
 }
 
 console.log(
   sortColleagues(
     colleagues.current,
-    (a, b) => a.contact.extension - b.contact.extension
+    (a, b) => a.contact.extension - b.contact.extension,
+    3
   )
+);
+console.log(
+  sortColleagues(colleagues.current, (a, b) => a.name.length - b.name.length, 1)
 );
 console.log(
   sortColleagues(colleagues.current, (a, b) => a.name.length - b.name.length)
@@ -72,5 +82,5 @@ function findFriends(
   return result;
 }
 
-console.log(findFriends(friends, (friend) => friend.name.startsWith("Pa")));
-console.log(findFriends(friends, (friend) => friend.age < 35));
+// console.log(findFriends(friends, (friend) => friend.name.startsWith("Pa")));
+// console.log(findFriends(friends, (friend) => friend.age < 35));
